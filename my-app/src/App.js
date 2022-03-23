@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import data from './Data';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	let obj;
+	obj = (
+		<div className="album">
+			<img src={data.album.images[1].url} alt="" className="albumImage" />
+			<p className="albumTitle">
+				{data.name} - <span>{data.artists[0].name}</span>
+			</p>
+			<p className="albumName">{data.album.name}</p>
+			<button>
+				<a href={data.external_urls.spotify}>Select</a>
+			</button>
+		</div>
+	);
+	return (
+		<div className="App">
+			<h1> Song </h1>
+			<div>{obj} </div>
+		</div>
+	);
 }
 
 export default App;
