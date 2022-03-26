@@ -3,16 +3,19 @@ import data from './Data';
 import Song from './components/song/index';
 
 function App() {
+	const listSong = data.map(a => (
+		<Song
+			title={a.name}
+			artist={a.artists[0].name}
+			album={a.album.name}
+			image={a.album.images[1].url}
+			url={a.external_urls.spotify}
+		/>
+	));
 	return (
 		<div className="App">
 			<h1> Song </h1>
-			<Song
-				title={data.name}
-				artist={data.artists[0].name}
-				album={data.album.name}
-				image={data.album.images[1].url}
-				url={data.external_urls.spotify}
-			/>
+			<div className="content">{listSong}</div>
 		</div>
 	);
 }
