@@ -7,6 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 40px;
 }
 
 .album {
@@ -41,7 +42,7 @@
   font-size: 12px;
 }
 
-button {
+.search-btn {
   background-color: black;
   color: white;
   border: 0 solid black;
@@ -51,12 +52,12 @@ button {
   width: 200px;
 }
 
-button a {
+.search-btn a {
   color: white;
   text-decoration: none;
 }
 
-button:hover {
+.search-btn:hover {
   background-color: rgb(70, 70, 70);
   transition: 0.4s;
 }

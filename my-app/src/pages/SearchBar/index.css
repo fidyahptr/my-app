@@ -1,0 +1,32 @@
+.button-login {
+    background-color: #1CB955;
+    margin-bottom: 40px;
+    border: 0 solid black;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 7px;
+    width: 200px;
+}
+
+.button-login a {
+    color: white;
+    text-decoration: none;
+    padding: 7px;
+}
+
+.button-login:hover {
+    background-color: rgb(25, 165, 76);
+    transition: 0.4s;
+}
+
+.search-bar {
+    border: 1px solid #d0d0d0;
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-right: 10px;
+}
+
+.search-song {
+    width: 100px;
+    border-radius: 10px;
+}
