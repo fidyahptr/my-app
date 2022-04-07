@@ -23,7 +23,7 @@ const SearchBar = () => {
 	useEffect(() => {
 		const songs = songData.map(prevState => ({
 			...prevState,
-			isSelected: isSelect.find(song => song === prevState.external_urls.spotify),
+			isSelected: isSelect.find(song => song === prevState.uri),
 		}));
 		setSelectedSong(songs);
 		console.log(isSelect);
@@ -49,7 +49,6 @@ const SearchBar = () => {
 			})
 			.then(response => {
 				setSpotifyId(response.data.id);
-				console.log(response);
 			})
 			.catch(error => {
 				console.log(error);
@@ -64,7 +63,8 @@ const SearchBar = () => {
 
 	const listSong = selectedSong.map(a => (
 		<Song
-			key={a.external_urls.spotify}
+			key={a.uri}
+			id={a.uri}
 			title={a.name}
 			artist={a.artists[0].name}
 			album={a.album.name}
@@ -98,7 +98,7 @@ const SearchBar = () => {
 			)}
 			{token && (
 				<div>
-					<PlaylistForm token={token} spotifyId={spotifyId} urlSong={isSelect} />
+					<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
 				</div>
 			)}
 			<div className="content">{listSong}</div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-const Song = ({ title, artist, album, image, url, handleClickSelect, isSelected }) => {
+const Song = ({ id, title, artist, album, image, url, handleClickSelect, isSelected }) => {
 	return (
 		<div className="album">
 			<img src={image} alt="" className="albumImage" />
@@ -12,7 +12,7 @@ const Song = ({ title, artist, album, image, url, handleClickSelect, isSelected 
 			<button
 				className="search-btn"
 				onClick={() => {
-					handleClickSelect(url);
+					handleClickSelect(id);
 				}}
 			>
 				<a href={url}>{isSelected ? 'Selected' : 'Select'}</a>

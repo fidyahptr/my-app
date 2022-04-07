@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const FormPlaylist = ({ token, spotifyId, urlSong }) => {
+const FormPlaylist = ({ token, spotifyId, uris }) => {
 	const initialValue = {
 		title: '',
 		desc: '',
@@ -44,7 +44,7 @@ const FormPlaylist = ({ token, spotifyId, urlSong }) => {
 			.post(
 				`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
 				{
-					uris: [...urlSong],
+					uris: uris,
 				},
 				{
 					headers: {
@@ -53,7 +53,7 @@ const FormPlaylist = ({ token, spotifyId, urlSong }) => {
 				}
 			)
 			.then(response => {
-				console.log(response);
+				console.log(response.data);
 			})
 			.catch(error => {
 				console.log(error);
@@ -82,7 +82,7 @@ const FormPlaylist = ({ token, spotifyId, urlSong }) => {
 						id="title"
 						value={form.title}
 						onChange={handleChange}
-						maxlength="10"
+						maxLength="10"
 					/>
 				</div>
 				<div>
