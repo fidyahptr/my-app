@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import setToken from '../../redux/token/tokenAction';
 import Song from '../../components/song/index';
 import axios from 'axios';
 import url from './auth';
@@ -6,7 +8,11 @@ import './index.css';
 import PlaylistForm from '../../components/formPlaylist/index';
 
 const SearchBar = () => {
-	const [token, setToken] = useState(null);
+	//redux
+	const token = useSelector(state => state.setToken);
+	const dispatch = useDispatch();
+
+	//state
 	const [searchSong, setSearchSong] = useState('');
 	const [songData, setSongData] = useState([]);
 	const [isSelect, setIsSelect] = useState([]);
@@ -17,7 +23,8 @@ const SearchBar = () => {
 		const queryString = new URL(window.location.href.replace('#', '?')).searchParams;
 		const accessToken = queryString.get('access_token');
 		getSpotifyId(accessToken);
-		setToken(accessToken);
+		dispatch(setToken(accessToken));
+		console.log(token);
 	}, []);
 
 	useEffect(() => {

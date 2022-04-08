@@ -1,14 +1,16 @@
 import './App.css';
-import data from './Data';
-import Song from './components/song/index';
+import { Provider } from 'react-redux';
+import store from './store';
 import SearchBar from './pages/SearchBar/index';
 
 function App() {
 	return (
-		<div className="App">
-			<h1> Song </h1>
-			<SearchBar />
-		</div>
+		<Provider store={store}>
+			<div className="App">
+				<h1> Song </h1>
+				<SearchBar />
+			</div>
+		</Provider>
 	);
 }
 
