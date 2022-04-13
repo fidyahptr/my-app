@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import setToken from '../../redux/token/tokenAction';
 import Song from '../../components/song/index';
 import axios from 'axios';
@@ -84,31 +85,43 @@ const SearchBar = () => {
 
 	return (
 		<>
-			{!token && (
-				<button className="button-login">
-					<a href={url}>Login</a>
-				</button>
-			)}
-			<br />
-			{token && (
-				<div className="search-container">
-					<input
-						className="search-bar"
-						type="search"
-						placeholder="Search Song"
-						onChange={e => setSearchSong(e.target.value)}
-					/>
-					<button className="search-btn search-song" type="button" onClick={getSong}>
-						Search
-					</button>
-				</div>
-			)}
-			{token && (
-				<div>
-					<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
-				</div>
-			)}
-			<div className="content">{listSong}</div>
+			<Router>
+				<Switch>
+					<Route exact path="/">
+						{!token ? (
+							<button className="button-login">
+								<a href={url}>Login</a>
+							</button>
+						) : (
+							<Redirect to="/create-playlist" />
+						)}
+					</Route>
+					<Route path="/create-playlist">
+						{!token && <Redirect to="/" />}
+						<div>
+							<div className="search-container">
+								<input
+									className="search-bar"
+									type="search"
+									placeholder="Search Song"
+									onChange={e => setSearchSong(e.target.value)}
+								/>
+								<button className="search-btn search-song" type="button" onClick={getSong}>
+									Search
+								</button>
+							</div>
+
+							<div>
+								<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
+							</div>
+							<div className="content">{listSong}</div>
+						</div>
+					</Route>
+					<Route path="*">
+						<h1>404</h1>
+					</Route>
+				</Switch>
+			</Router>
 		</>
 	);
 };
