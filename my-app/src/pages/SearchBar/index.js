@@ -65,7 +65,6 @@ const SearchBar = () => {
 
 	const handleClickSelect = url => {
 		let selected = isSelect.find(song => song === url);
-
 		selected ? setIsSelect(isSelect.filter(song => song !== url)) : setIsSelect([...isSelect, url]);
 	};
 
