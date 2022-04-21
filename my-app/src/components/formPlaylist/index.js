@@ -27,6 +27,7 @@ const FormPlaylist = ({ token, spotifyId, uris }) => {
 			)
 			.then(response => {
 				setUserId(response.data.id);
+				console.log(response.data.id);
 			})
 			.catch(error => {
 				console.log(error);
@@ -54,6 +55,7 @@ const FormPlaylist = ({ token, spotifyId, uris }) => {
 			)
 			.then(response => {
 				console.log(response.data);
+				alert('berhasil');
 			})
 			.catch(error => {
 				console.log(error);
@@ -72,7 +74,7 @@ const FormPlaylist = ({ token, spotifyId, uris }) => {
 
 	return (
 		<div>
-			<h3>Create Playlist</h3>
+			<h1>Create Playlist</h1>
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="title">Title</label>
@@ -90,7 +92,7 @@ const FormPlaylist = ({ token, spotifyId, uris }) => {
 					<input type="text" name="desc" id="desc" value={form.desc} onChange={handleChange} />
 				</div>
 				<div>
-					<input type="submit" value="Submit" />
+					<input className="search-btn search-song" type="submit" value="Submit" />
 				</div>
 			</form>
 		</div>

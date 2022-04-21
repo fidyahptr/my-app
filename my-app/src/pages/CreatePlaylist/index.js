@@ -8,7 +8,7 @@ import url from './auth';
 import './index.css';
 import PlaylistForm from '../../components/formPlaylist/index';
 
-const SearchBar = () => {
+const CreatePlaylist = () => {
 	//redux
 	const token = useSelector(state => state.setToken);
 	const dispatch = useDispatch();
@@ -19,6 +19,7 @@ const SearchBar = () => {
 	const [isSelect, setIsSelect] = useState([]);
 	const [selectedSong, setSelectedSong] = useState([]);
 	const [spotifyId, setSpotifyId] = useState('');
+	const [userData, setUserData] = useState();
 
 	useEffect(() => {
 		const queryString = new URL(window.location.href.replace('#', '?')).searchParams;
@@ -29,12 +30,33 @@ const SearchBar = () => {
 	}, []);
 
 	useEffect(() => {
+		const getUserData = async () => {
+			await axios
+				.get(`https://api.spotify.com/v1/users/${spotifyId}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then(response => {
+					setUserData(response.data);
+					console.log(userData);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		};
+		getUserData();
+	}, [token, spotifyId]);
+
+	useEffect(() => {
 		const songs = songData.map(prevState => ({
 			...prevState,
 			isSelected: isSelect.find(song => song === prevState.uri),
 		}));
 		setSelectedSong(songs);
 		console.log(isSelect);
+		console.log(spotifyId);
+		console.log(token);
 	}, [songData, isSelect]);
 
 	const getSong = async () => {
@@ -57,6 +79,7 @@ const SearchBar = () => {
 			})
 			.then(response => {
 				setSpotifyId(response.data.id);
+				console.log(spotifyId);
 			})
 			.catch(error => {
 				console.log(error);
@@ -98,6 +121,18 @@ const SearchBar = () => {
 					<Route path="/create-playlist">
 						{!token && <Redirect to="/" />}
 						<div>
+							{userData && (
+								<div>
+									<img src={userData.images[0].url} alt="profil" />
+									<a href={userData.external_urls.spotify}>link</a>
+									<p>{userData.display_name}</p>
+									<p>{userData.followers.total}</p>
+								</div>
+							)}
+							<div>
+								<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
+							</div>
+
 							<div className="search-container">
 								<input
 									className="search-bar"
@@ -110,9 +145,6 @@ const SearchBar = () => {
 								</button>
 							</div>
 
-							<div>
-								<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
-							</div>
 							<div className="content">{listSong}</div>
 						</div>
 					</Route>
@@ -125,4 +157,4 @@ const SearchBar = () => {
 	);
 };
 
-export default SearchBar;
+export default CreatePlaylist;
