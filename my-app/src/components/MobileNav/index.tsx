@@ -1,7 +1,13 @@
 import React from 'react';
-import { Flex, Box, IconButton, Stack, HStack, VStack, Avatar, Text, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Box, IconButton, HStack, VStack, Avatar, Text, useColorModeValue, FlexProps } from '@chakra-ui/react';
 
-const MobileNav = ({ onOpen, username, image }) => {
+interface MobileProps extends FlexProps {
+	onOpen: () => void;
+	username: string;
+	image: string;
+}
+
+const MobileNav = ({ onOpen, username, image }: MobileProps) => {
 	return (
 		<Flex
 			ml={{ base: 0, md: 60 }}

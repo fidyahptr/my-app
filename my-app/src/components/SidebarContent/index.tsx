@@ -1,8 +1,12 @@
 import React from 'react';
-import { Flex, Box, CloseButton, Text, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Box, CloseButton, Text, useColorModeValue, BoxProps } from '@chakra-ui/react';
 import NavItem from '../NavItem/index';
 
-const SidebarContent = ({ onClose }) => {
+interface SidebarProps extends BoxProps {
+	onClose: () => void;
+}
+
+const SidebarContent = ({ onClose }: SidebarProps) => {
 	return (
 		<Box
 			transition="3s ease"

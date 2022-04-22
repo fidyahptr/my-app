@@ -1,6 +1,17 @@
 import React from 'react';
 
-const Song = ({ id, title, artist, album, image, url, handleClickSelect, isSelected }) => {
+interface songInterface {
+	id: string;
+	title: string;
+	artist: string;
+	image: string;
+	album: string;
+	url: string;
+	handleClickSelect: (id: string) => void;
+	isSelected: boolean;
+}
+
+const Song = ({ id, title, artist, album, image, url, handleClickSelect, isSelected }: songInterface) => {
 	return (
 		<div className="album">
 			<img src={image} alt="" className="albumImage" />
@@ -14,7 +25,7 @@ const Song = ({ id, title, artist, album, image, url, handleClickSelect, isSelec
 					handleClickSelect(id);
 				}}
 			>
-				<a href={url}>{isSelected ? 'Selected' : 'Select'}</a>
+				{isSelected ? 'Selected' : 'Select'}
 			</button>
 		</div>
 	);

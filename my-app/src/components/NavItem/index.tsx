@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Link } from '@chakra-ui/react';
 
-const NavItem = ({ ...rest }) => {
+const NavItem = ({ ...rest }: any) => {
 	return (
 		<Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
 			<Flex
