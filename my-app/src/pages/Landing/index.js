@@ -29,8 +29,8 @@ const Landing = () => {
 						</Text>
 					</Heading>
 					<Text color={'gray.500'}>
-						Monetize your content by charging your most loyal readers and reward them loyalty points. Give
-						back to your loyal readers by granting them access to your pre-releases and sneak-peaks.
+						MusicPlay is a website that can connect to your Spotify account. This website can Login, Create
+						Playlist, Add Items to Playlist, Search Song, and Show your Spotify profile
 					</Text>
 					<Stack direction={'column'} spacing={3} align={'center'} alignSelf={'center'} position={'relative'}>
 						<Button
