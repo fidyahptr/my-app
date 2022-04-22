@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import setToken from '../../redux/token/tokenAction';
+import { useSelector } from 'react-redux';
 import Song from '../../components/song/index';
 import axios from 'axios';
-import url from './auth';
+import { Box, Heading, useColorModeValue, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import './index.css';
 import PlaylistForm from '../../components/formPlaylist/index';
+import MobileNav from '../../components/MobileNav/index';
+import SidebarContent from '../../components/SidebarContent/index';
 
 const CreatePlaylist = () => {
 	//redux
 	const token = useSelector(state => state.setToken);
-	const dispatch = useDispatch();
 
 	//state
 	const [searchSong, setSearchSong] = useState('');
@@ -21,14 +20,13 @@ const CreatePlaylist = () => {
 	const [spotifyId, setSpotifyId] = useState('');
 	const [userData, setUserData] = useState();
 
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	useEffect(() => {
-		const queryString = new URL(window.location.href.replace('#', '?')).searchParams;
-		const accessToken = queryString.get('access_token');
-		getSpotifyId(accessToken);
-		dispatch(setToken(accessToken));
-		console.log(token);
+		getSpotifyId(token);
 	}, []);
 
+	// if success get token and spotifyId, website will get user profile
 	useEffect(() => {
 		const getUserData = async () => {
 			await axios
@@ -107,52 +105,53 @@ const CreatePlaylist = () => {
 
 	return (
 		<>
-			<Router>
-				<Switch>
-					<Route exact path="/">
-						{!token ? (
-							<button className="button-login">
-								<a href={url}>Login</a>
+			<Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+				<SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
+				<Drawer
+					autoFocus={false}
+					isOpen={isOpen}
+					placement="left"
+					onClose={onClose}
+					returnFocusOnClose={false}
+					onOverlayClick={onClose}
+					size="full"
+				>
+					<DrawerContent>
+						<SidebarContent onClose={onClose} />
+					</DrawerContent>
+				</Drawer>
+
+				{/* MobileNav */}
+				{userData && (
+					<MobileNav onOpen={onOpen} username={userData.display_name} image={userData.images[0].url} />
+				)}
+				{/* End of MobileNav */}
+
+				{/* Content */}
+				<Box ml={{ base: 0, md: 60 }} p="4" textAlign="center">
+					<div>
+						<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
+
+						<Heading as="h3" size="lg" mt={6} pb={4}>
+							Search Song
+						</Heading>
+						<div className="search-container">
+							<input
+								className="search-bar"
+								type="search"
+								placeholder="Search Song"
+								onChange={e => setSearchSong(e.target.value)}
+							/>
+							<button className="search-btn search-song" type="button" onClick={getSong}>
+								Search
 							</button>
-						) : (
-							<Redirect to="/create-playlist" />
-						)}
-					</Route>
-					<Route path="/create-playlist">
-						{!token && <Redirect to="/" />}
-						<div>
-							{userData && (
-								<div>
-									<img src={userData.images[0].url} alt="profil" />
-									<a href={userData.external_urls.spotify}>link</a>
-									<p>{userData.display_name}</p>
-									<p>{userData.followers.total}</p>
-								</div>
-							)}
-							<div>
-								<PlaylistForm token={token} spotifyId={spotifyId} uris={isSelect} />
-							</div>
-
-							<div className="search-container">
-								<input
-									className="search-bar"
-									type="search"
-									placeholder="Search Song"
-									onChange={e => setSearchSong(e.target.value)}
-								/>
-								<button className="search-btn search-song" type="button" onClick={getSong}>
-									Search
-								</button>
-							</div>
-
-							<div className="content">{listSong}</div>
 						</div>
-					</Route>
-					<Route path="*">
-						<h1>404</h1>
-					</Route>
-				</Switch>
-			</Router>
+
+						<div className="content">{listSong}</div>
+					</div>
+				</Box>
+				{/* End of Content */}
+			</Box>
 		</>
 	);
 };

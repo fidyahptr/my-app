@@ -1,7 +1,13 @@
 import React from 'react';
 import { Box, Heading, Text, Button } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
 
 const NotFound = () => {
+	const history = useHistory();
+	const handleClick = () => {
+		history.push('/');
+	};
+
 	return (
 		<div>
 			<Box textAlign="center" py={10} px={6}>
@@ -20,12 +26,13 @@ const NotFound = () => {
 				<Text color={'gray.500'} mb={6}>
 					The page you&apos;re looking for does not seem to exist
 				</Text>
-
 				<Button
 					colorScheme="teal"
 					bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
 					color="white"
 					variant="solid"
+					onClick={handleClick}
+					type="button"
 				>
 					Go to Home
 				</Button>

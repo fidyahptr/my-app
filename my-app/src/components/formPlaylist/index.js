@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Heading, FormControl, FormLabel, FormErrorMessage, FormHelperText, Input } from '@chakra-ui/react';
-import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
-import { Flex, Box, Checkbox, Stack, Link, Button, Text, useColorModeValue } from '@chakra-ui/react';
+import {
+	Heading,
+	FormControl,
+	FormLabel,
+	FormErrorMessage,
+	FormHelperText,
+	Input,
+	Box,
+	Stack,
+	Button,
+	useColorModeValue,
+	Textarea,
+} from '@chakra-ui/react';
 
 const FormPlaylist = ({ token, spotifyId, uris }) => {
 	const initialValue = {
@@ -60,16 +70,11 @@ const FormPlaylist = ({ token, spotifyId, uris }) => {
 			)
 			.then(response => {
 				console.log(response.data);
-				const alertSucces = (
-					<Alert status="success">
-						<AlertIcon />
-						{form.title} Playlist added. Fire on!
-					</Alert>
-				);
-				console.log(alertSucces);
+				alert(`${form.title} Playlist added!`);
 			})
 			.catch(error => {
 				console.log(error);
+				alert(`${form.title} Playlist cannot added!`);
 			});
 	};
 
@@ -85,79 +90,60 @@ const FormPlaylist = ({ token, spotifyId, uris }) => {
 
 	return (
 		<div>
-			<Heading as="h2" size="xl" mt={6} mb={2}>
+			<Heading as="h2" size="xl" mt={6} pb={4}>
 				Create Playlist
 			</Heading>
-			<Flex minH={'100vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>
-				<Box rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={'lg'} p={8}>
+			<form onSubmit={handleSubmit}>
+				<Box
+					maxW="sm"
+					rounded={'lg'}
+					bg={useColorModeValue('white', 'gray.700')}
+					boxShadow={'lg'}
+					p={8}
+					mt="5"
+					mx="auto"
+				>
 					<Stack spacing={4}>
-						<FormControl id="email">
-							<FormLabel>Email address</FormLabel>
-							<Input type="email" />
+						<FormControl htmlFor="title" isInvalid={isError} isRequired>
+							<FormLabel>Title</FormLabel>
+							<Input
+								type="text"
+								name="title"
+								id="title"
+								value={form.title}
+								onChange={handleChange}
+								maxLength={10}
+							/>
+							{!isError ? (
+								<FormHelperText textAlign="left">Title min. 10 Character</FormHelperText>
+							) : (
+								<FormErrorMessage>Cannot more than 10</FormErrorMessage>
+							)}
 						</FormControl>
-						<FormControl id="password">
-							<FormLabel>Password</FormLabel>
-							<Input type="password" />
+						<FormControl id="desc">
+							<FormLabel>Description</FormLabel>
+							<Textarea
+								name="desc"
+								id="desc"
+								value={form.desc}
+								onChange={handleChange}
+								placeholder="Description Playlist"
+							/>
 						</FormControl>
 						<Stack spacing={10}>
-							<Stack direction={{ base: 'column', sm: 'row' }} align={'start'} justify={'space-between'}>
-								<Checkbox>Remember me</Checkbox>
-								<Link color={'blue.400'}>Forgot password?</Link>
-							</Stack>
 							<Button
 								bg={'blue.400'}
 								color={'white'}
 								_hover={{
 									bg: 'blue.500',
 								}}
+								type="submit"
 							>
-								Sign in
+								Submit
 							</Button>
 						</Stack>
 					</Stack>
 				</Box>
-			</Flex>
-
-			<form onSubmit={handleSubmit}>
-				{/* <FormControl isInvalid={isError}>
-					<FormLabel htmlFor="title">Email</FormLabel>
-					<Input
-						id="title"
-						type="text"
-						value={form.title}
-						onChange={handleChange}
-						maxLength={10}
-						colorScheme={'white'}
-					/>
-					{!isError ? (
-						<FormHelperText>Enter the email you&apos;d like to receive the newsletter on.</FormHelperText>
-					) : (
-						<FormErrorMessage>Email is required.</FormErrorMessage>
-					)}
-				</FormControl> */}
-				{/* {!isError ? (
-					<FormHelperText>Enter the email you&apos;d like to receive the newsletter on.</FormHelperText>
-				) : (
-					<FormErrorMessage>Email is required.</FormErrorMessage>
-				)} */}
-				<div>
-					<label htmlFor="title">Title</label>
-					<input
-						type="text"
-						name="title"
-						id="title"
-						value={form.title}
-						onChange={handleChange}
-						maxLength="10"
-					/>
-				</div>
-				<div>
-					<label htmlFor="desc">Description</label>
-					<input type="text" name="desc" id="desc" value={form.desc} onChange={handleChange} />
-				</div>
-				<div>
-					<input className="search-btn search-song" type="submit" value="Submit" />
-				</div>
 			</form>
 		</div>
 	);
